@@ -54,7 +54,7 @@ require('./src/utilities/socket')({ http });
 /** Starting Server */
 http.listen(PORT, () => {
     if (verifyDevelopmentEnvironment) {
-        console.log(`🔥 Development Server is running at http://localhost:${APP_PORT}`);
+        console.log(`🔥 Development Server is running at http://localhost:${PORT}`);
     } else {
         const successMessage = `😃 ${APP_NAME} is LIVE on port ${APP_PORT}`;
         console.log(successMessage);

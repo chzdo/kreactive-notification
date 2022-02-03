@@ -97,7 +97,7 @@ async function checkAuthenticated(request, response, next) {
         url: `${AUTH_USER_URL}/api/v1/users/auth/currentuser`,
         method: 'GET',
         headers: {
-            authorization,
+            authorization: authorization,
         },
     });
 
