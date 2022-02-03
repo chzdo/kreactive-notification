@@ -4,7 +4,6 @@ module.exports = {
         description: 'Send Mobile Text',
         operationId: 'sendMobile',
 
-        security: [{ JWT: [] }],
         requestBody: {
             content: {
                 'application/json': {

@@ -96,10 +96,6 @@ class NotificationService extends RootService {
         try {
             let { body, user } = request;
 
-            if (!user) {
-                throw new CustomNotAuthorizedError('not authenticated');
-            }
-
             const { error } = typeSchema.validate(body);
 
             if (error) throw new CustomValidationError(this.filterJOIValidation(error.message));
@@ -130,10 +126,6 @@ class NotificationService extends RootService {
     async sendMobile({ request, next }) {
         try {
             const { body, user } = request;
-
-            if (!user) {
-                throw new CustomNotAuthorizedError('not authenticated');
-            }
 
             const { error } = mobileSchema.validate(body);
 

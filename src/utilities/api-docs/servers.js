@@ -9,7 +9,7 @@ module.exports = {
             description: 'Dev server',
         },
         {
-            url: '',
+            url: 'https://kreativerock-notification.herokuapp.com/',
             description: 'Test server',
         },
         {

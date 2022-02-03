@@ -4,7 +4,6 @@ module.exports = {
         description: 'Send Mail',
         operationId: 'sendMail',
 
-        security: [{ JWT: [] }],
         requestBody: {
             content: {
                 'application/json': {

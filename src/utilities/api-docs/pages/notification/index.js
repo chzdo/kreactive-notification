@@ -4,14 +4,14 @@ const createNotification = require('./create-notification');
 const getNotification = require('./get-notification');
 module.exports = {
     paths: {
-        '/': {
+        '/api/': {
             ...createNotification,
             ...getNotification,
         },
-        '/mail': {
+        '/api/mail': {
             ...sendMail,
         },
-        '/mobile-text': {
+        '/api/mobile-text': {
             ...sendMobile,
         },
     },

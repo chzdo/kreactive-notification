@@ -19,11 +19,11 @@ try {
             request.payload = await notificationService.createNotification({ request, next });
             next();
         })
-        .post('/mail', [checkAuthenticated], async (request, response, next) => {
+        .post('/mail', async (request, response, next) => {
             request.payload = await notificationService.sendMail({ request, next });
             next();
         })
-        .post('/mobile-text', [checkAuthenticated], async (request, response, next) => {
+        .post('/mobile-text', async (request, response, next) => {
             request.payload = await notificationService.sendMobile({ request, next });
             next();
         })
