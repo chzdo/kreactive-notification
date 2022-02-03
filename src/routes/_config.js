@@ -15,7 +15,7 @@ const {
 /** Models Route Handlers */
 const notificationRouteHandler = require('./notification');
 const logsRouterHandler = require('./externalLogger');
-const apiDocs = require('../utilities/docs');
+const apiDocs = require('../utilities/api-docs');
 
 /** Cross Origin Handling */
 
