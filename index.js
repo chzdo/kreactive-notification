@@ -4,7 +4,7 @@
  * @module Index
  */
 
-const { APP_PORT, APP_NAME } = process.env;
+const { PORT, APP_NAME } = process.env;
 
 const expressMongoSanitize = require('express-mongo-sanitize');
 const compression = require('compression');
@@ -52,7 +52,7 @@ const http = httpServer.createServer(app);
 require('./src/utilities/socket')({ http });
 
 /** Starting Server */
-http.listen(APP_PORT, () => {
+http.listen(PORT, () => {
     if (verifyDevelopmentEnvironment) {
         console.log(`🔥 Development Server is running at http://localhost:${APP_PORT}`);
     } else {
