@@ -86,8 +86,6 @@ async function checkAuthenticated(request, response, next) {
     };
     const { authorization } = request.headers;
 
-    console.log({ authorization });
-
     if (!authorization) {
         next(failedResponse);
         return;
@@ -100,8 +98,6 @@ async function checkAuthenticated(request, response, next) {
             authorization: authorization,
         },
     });
-
-    console.log(authentication);
 
     if (!authentication) {
         next(failedResponse);

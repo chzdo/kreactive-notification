@@ -3,11 +3,11 @@ const { default: axios } = require('axios');
 module.exports = {
     callApi: async (config) => {
         try {
-            const r = await axios.request({
+            const { data } = await axios.request({
                 ...config,
             });
-            console.log(r);
-            return r.data;
+
+            return data;
         } catch (e) {
             console.log(e);
         }
