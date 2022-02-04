@@ -8,7 +8,10 @@ const Joi = require('@hapi/joi');
 const createSchema = Joi.object({
     message: Joi.string().required().label('message'),
     data: Joi.when('sendEmail', { is: true, then: Joi.object().required() }),
-    emails: Joi.when('sendEmail', { is: true, then: Joi.array().items(Joi.string().email()) }),
+    emails: Joi.when('sendEmail', {
+        is: true,
+        then: Joi.array().items(Joi.string().email()).min(1).required(),
+    }),
     sendEmail: Joi.bool().required(),
     type: Joi.string().required(),
 });

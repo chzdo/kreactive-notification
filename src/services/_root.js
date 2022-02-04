@@ -146,8 +146,8 @@ class RootService {
      * @param {object} result The response from the Controller request to the database
      * @returns An instance of SuccessfulResponse/FailedResponse
      */
-    processSingleRead(result) {
-        if (result && result.id) return this.processSuccessfulResponse({ payload: result });
+    processSingleRead(result, code = 200) {
+        if (result && result.id) return this.processSuccessfulResponse({ payload: result, code });
         return this.processFailedResponse({ message: 'Resource not found', code: 404 });
     }
 

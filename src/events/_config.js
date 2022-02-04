@@ -3,7 +3,7 @@
  * This is the entry-point for all Nodejs Events in the application
  * @module EVENTS:Config
  */
-
+const { FROM } = process.env;
 const EventEmitter = require('events');
 
 const { Logger } = require('../utilities/logger');
@@ -23,35 +23,38 @@ appEvent.on('error', (error) => {
 });
 
 appEvent.on('MAIL', async (param) => {
-    let templates = await TemplatesController.readRecords({
-        conditions: { isActive: true, type: param.type },
-    });
+    try {
+        let templates = await TemplatesController.readRecords({
+            conditions: { isActive: true, type: param.type },
+        });
 
-    if (templates && templates.failed) {
-        console.log(templates);
-        appEvent.emit('error', templates.error);
-        return;
+        if (templates && templates.failed) {
+            console.log(templates);
+            appEvent.emit('error', templates.error);
+            return;
+        }
+
+        if (!templates.length) {
+            appEvent.emit('error', 'templaten not found');
+            return;
+        }
+
+        [templates] = templates;
+
+        const { template, subject } = templates;
+
+        const messageConfig = {
+            to: param.emails,
+            from: FROM,
+            subject: subject,
+            html: getTemplate(template, param.data ? param.data : {}),
+        };
+
+        const response = await sendMail(messageConfig);
+        console.log({ response });
+    } catch (e) {
+        console.log(e);
     }
-
-    if (!templates.length) {
-        appEvent.emit('error', 'templaten not found');
-        return;
-    }
-
-    [templates] = templates;
-
-    const { template, subject } = templates;
-
-    const messageConfig = {
-        to: param.emails,
-        from: 'KREATIVEROCK <no-reply@kreativerock.com>',
-        subject: subject,
-        html: getTemplate(template, param.data),
-    };
-
-    console.log('here', messageConfig);
-    const response = await sendMail(messageConfig);
-    console.log({ response });
 });
 
 module.exports = appEvent;

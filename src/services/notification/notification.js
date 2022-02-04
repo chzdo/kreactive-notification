@@ -53,10 +53,11 @@ class NotificationService extends RootService {
 
             const { error } = createSchema.validate(body);
             if (error) throw new CustomValidationError(this.filterJOIValidation(error.message));
-
+            console.log(body);
             body = { ...body, organizationId: user.organizationId, creatorId: user.currentUserId };
 
-            const result = await this.notificationController.createRecord({ ...body });
+            console.log(body);
+            const result = await this.notificationController.createRecord(body);
             if (result && result.failed) throw new CustomControllerError(result.error);
 
             socketServer.to(`room-${result.organizationId}`).emit('NEW_NOTIFICATION', result);
@@ -64,7 +65,7 @@ class NotificationService extends RootService {
             if (result.sendEmail) {
                 appEvent.emit('MAIL', result);
             }
-            return this.processSingleRead(result);
+            return this.processSingleRead(result, 202);
         } catch (e) {
             let processedError = this.formatError({
                 service: this.serviceName,

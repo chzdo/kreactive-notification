@@ -57,7 +57,7 @@ const NotificationSchema = new Schema({
     },
     data: {
         type: Object,
-        defualt: {},
+        default: {},
     },
     type: {
         type: String,
