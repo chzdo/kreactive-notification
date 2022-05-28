@@ -3,11 +3,12 @@
  * This is the entry-point for all Nodejs Events in the application
  * @module EVENTS:Config
  */
-const { FROM } = process.env;
 const EventEmitter = require('events');
-
 const { Logger } = require('../utilities/logger');
-const sendMail = require('../utilities/mails');
+const emailUtils = require('../utilities/mails');
+const replaceTags = require('../utilities/template');
+const templateManager = require('../utilities/templateManager');
+const { SEND_TEXT_URL } = process.env;
 
 /**
  *
@@ -21,40 +22,33 @@ const appEvent = new AppEvent();
 appEvent.on('error', (error) => {
     Logger.error(`[AppEvent Error] ${error}`);
 });
-
 appEvent.on('MAIL', async (param) => {
-    try {
-        let templates = await TemplatesController.readRecords({
-            conditions: { isActive: true, type: param.type },
-        });
-
-        if (templates && templates.failed) {
-            console.log(templates);
-            appEvent.emit('error', templates.error);
-            return;
-        }
-
-        if (!templates.length) {
-            appEvent.emit('error', 'templaten not found');
-            return;
-        }
-
-        [templates] = templates;
-
-        const { template, subject } = templates;
-
-        const messageConfig = {
+    console.log(param)
+    const response = await emailUtils.sendMail({
             to: param.emails,
-            from: FROM,
-            subject: subject,
-            html: getTemplate(template, param.data ? param.data : {}),
-        };
-
-        const response = await sendMail(messageConfig);
-        console.log({ response });
-    } catch (e) {
-        console.log(e);
+            tags: param.data,
+            template: param.type
+        });
+    if (response.status === 200) {
+        Logger.info({ msg: "email message sent successfully" });
+    } else {
+        appEvent.emit("error", response.error);
     }
 });
+
+appEvent.on("MESSAGE", async ({ body, authorization }) => {
+    const template = await templateManager.get(body.type, false)
+    body.message = replaceTags(template.body, body.data);
+    delete body.data;
+    delete body.type;
+    ApiCall({
+        url: SEND_TEXT_URL,
+        method: 'POST',
+        headers: {
+            authorization: authorization || "",
+        },
+        data: body,
+    });
+})
 
 module.exports = appEvent;

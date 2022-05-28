@@ -87,15 +87,24 @@ module.exports = {
                     phoneNumbers: {
                         type: 'array',
                         description: 'Array of phone Numbers to recieve notification',
-                        example: ['+2347050704721'],
+                        example: ['2347050704721'],
                         required: true,
                     },
-                    message: {
-                        type: 'string',
+                    data: {
+                        type: "object",
                         required: true,
-                        example: 'Hi your code is 4065',
-                        description: 'message to be sent',
+                        example: {
+                            firstName: "Stanley",
+                            lastName:"Ibe"
+                        },
+                        description:"placeholders"
                     },
+                    type: {
+                        type: "string",
+                        required: true,
+                        example: "MOBILE_CODE",
+                        description: "type of template"
+                    }
                 },
             },
 

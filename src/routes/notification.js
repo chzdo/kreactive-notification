@@ -19,6 +19,10 @@ try {
             request.payload = await notificationService.createNotification({ request, next });
             next();
         })
+        .post('/no-auth', async (request, response, next) => {
+            request.payload = await notificationService.createBulkNotification({ request, next });
+            next();
+        })
         .post('/mail', async (request, response, next) => {
             request.payload = await notificationService.sendMail({ request, next });
             next();

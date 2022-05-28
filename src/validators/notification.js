@@ -16,6 +16,13 @@ const createSchema = Joi.object({
     type: Joi.string().required(),
 });
 
+const createBulkSchema = Joi.object({
+    message: Joi.string().required().label('message'),
+    data:  Joi.array().required().min(1) ,
+    sendEmail: Joi.bool().required(),
+    type: Joi.string().required(),
+});
+
 const typeSchema = Joi.object({
     type: Joi.string().required().label('type'),
     data: Joi.object().required(),
@@ -29,8 +36,9 @@ const templateSchema = Joi.object({
 });
 const mobileSchema = Joi.object({
     senderId: Joi.string().required().label('Sender ID'),
-    message: Joi.string().required(),
     phoneNumbers: Joi.array().items(Joi.string()).required(),
+    data: Joi.object().required().min(1),
+    type: Joi.string().required()
 });
 
 module.exports = {
@@ -38,4 +46,5 @@ module.exports = {
     typeSchema,
     templateSchema,
     mobileSchema,
+    createBulkSchema
 };

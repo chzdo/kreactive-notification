@@ -1,4 +1,5 @@
 const { default: axios } = require('axios');
+const { Logger } = require('./logger');
 
 module.exports = {
     callApi: async (config) => {
@@ -6,10 +7,9 @@ module.exports = {
             const { data } = await axios.request({
                 ...config,
             });
-
             return data;
         } catch (e) {
-            console.log(e);
+            Logger.error({e})
         }
     },
     getTemplate: (template, result) => {

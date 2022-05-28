@@ -115,6 +115,25 @@ class Controller {
         }
     }
 
+    
+    /**
+     *
+     * This method creates a document using the mongoose create method that calls create on MongoDB.
+     * This returns mongodb success/error object
+     * @async
+     * @method
+     * @param {object} data
+     * @returns {object|Promise<void>} Either an error object/successfully created document object
+     */
+     async createManyRecord(data=[]) {
+        try {   
+            const recordToCreate = this.model.insertMany(data)
+            return recordToCreate;
+        } catch (e) {
+            return Controller.processError(e);
+        }
+    }
+
     /**
      *
      * @typedef {Object} ReadRecordsParameter

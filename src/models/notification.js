@@ -7,12 +7,7 @@ const { model, Schema } = require('mongoose');
 
 const NotificationSchema = new Schema({
     // Model Required fields
-    id: {
-        type: Number,
-        required: true,
-        unique: true,
-        default: 0,
-    },
+  
     isActive: {
         type: Boolean,
         required: true,

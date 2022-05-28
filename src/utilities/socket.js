@@ -12,17 +12,13 @@ function inAppChannels({ http }) {
     });
 
     socketServer.on('connection', (socket) => {
-        const { orgId } = socket.handshake.query;
-
-        const roomId = `room-${orgId}`;
-
+        const { organizationId } = socket.handshake.query;
+        const roomId = `room-${organizationId}`;
         socket.join(roomId);
-
         socket.on('disconnect', () => {
             socket.leave(roomId);
         });
     });
-
     global.socketServer = socketServer;
 }
 
